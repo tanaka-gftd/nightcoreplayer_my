@@ -10,8 +10,10 @@ package jp.ed.nnn.nightcoreplayer
 //JavaFXのJavaのクラスは、Scalaでも使用できる
 import java.io.File
 import javafx.application.Application
+import javafx.geometry.Pos
 import javafx.scene.Scene
-import javafx.scene.layout.BorderPane
+import javafx.scene.control.Label
+import javafx.scene.layout.{BorderPane, HBox}
 import javafx.scene.media.{Media, MediaPlayer, MediaView}
 import javafx.scene.paint.Color
 import javafx.stage.Stage
@@ -53,6 +55,27 @@ class Main extends Application {
     //MediaViewクラス...実際に映像を表示するクラス
     val mediaView = new MediaView(mediaPlayer)
 
+    //メディアプレイヤーの縦横設定
+    mediaView.setFitWidth(800)
+    mediaView.setFitHeight(450)
+
+    //Labelクラスのインスタンス作成（このラベルはタイム表示として使用する）
+    val timeLabel = new Label()
+
+    //Labelクラスのインスタンスに文字と文字色を設定
+    timeLabel.setText("00:00:00/00:00:00")
+    timeLabel.setTextFill(Color.WHITE)
+
+    //HBoxクラスのインスタンスを作成
+    //HBoxクラス...単一の水平行に子をレイアウトする
+    val toolBar = new HBox(timeLabel)
+
+    //内包する子要素(Labelクラスのインスタンス)の位置を中央に設定
+    toolBar.setAlignment(Pos.CENTER)
+
+    //作成したHBoxクラスのインスタンスの背景色を、setStyleメソッドで黒にする
+    toolBar.setStyle("-fx-background-color: Black")
+
     //BorderPaneクラスのインスタンスを生成
     //BorderPaneクラス...レイアウトを行える部品
     val baseBorderPane = new BorderPane()
@@ -62,6 +85,9 @@ class Main extends Application {
 
     //メディアプレイヤーを表示する場所を、setCenterメソッドでBorderPaneクラスの中央に設定
     baseBorderPane.setCenter(mediaView)
+
+    //ツールバーを表示する場所は、BorderPaneクラスの下部に設定
+    baseBorderPane.setBottom(toolBar)
 
     //Sceneクラスのインスタンスを生成
     //Sceneクラス...JavaFXのUIコンポーネントの入れ物、コンテナ
